@@ -3,6 +3,6 @@ from . import models
 
 
 class KittyAdmin(admin.ModelAdmin): 
-    list_display = ('name') 
+    list_display = ('name', 'img') 
 
 admin.site.register(models.Kitty, KittyAdmin)
