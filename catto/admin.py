@@ -4,4 +4,5 @@ from . import models
 
 class KittyAdmin(admin.ModelAdmin): 
     list_display = ('name') 
-    admin.site.register(models.Kitty, KittyAdmin)
+
+admin.site.register(models.Kitty, KittyAdmin)
