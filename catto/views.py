@@ -23,17 +23,21 @@ class SearchKittyCat(generics.ListAPIView):
     def get_queryset(self):
         query = self.request.GET
 
-        name_list = []
-        breed_list = []
+        name_list = list()
+        breed_list = list()
+
+        if 'name' in query.keys() and'breed' in query.keys():
+            return models.Kitty.objects.filter(Q(name__icontains=query['name'])&Q(breed__icontains=query['breed']))
 
         if 'name' in query.keys():
-            name_list = models.Kitty.objects.filter(name__icontains=query['name'])
+            return models.Kitty.objects.filter(Q(name__icontains=query['name']))
 
         if 'breed' in query.keys():
-            breed_list = models.Kitty.objects.filter(breed__icontains=query['breed'])
+            return models.Kitty.objects.filter(Q(breed__icontains=query['breed']))
 
 
-        return list(chain(name_list, breed_list))
+
+        return set(chain(name_list, breed_list))
         
 
 
