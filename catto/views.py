@@ -24,23 +24,23 @@ class SearchKittyCat(generics.ListAPIView):
         query = self.request.GET
 
 
-        if 'name' in query.keys() and 'breed' and 'type' in query.keys():
-            return models.Kitty.objects.filter(Q(name=query['name'])&Q(breed__icontains=query['breed'])&Q(img__endswith=query['type'])).order_by('?')
+        if 'name' in query.keys() and 'tags' and 'type' in query.keys():
+            return models.Kitty.objects.filter(Q(name=query['name'])&Q(tags__icontains=query['tags'])&Q(img__endswith=query['type'])).order_by('?')
 
         if 'name' in query.keys():
-            if 'breed' in query.keys():
-                return models.Kitty.objects.filter(Q(name=query['name'])&Q(breed__icontains=query['breed'])).order_by('?')
+            if 'tags' in query.keys():
+                return models.Kitty.objects.filter(Q(name=query['name'])&Q(tags__icontains=query['tags'])).order_by('?')
             
             if 'type' in query.keys():
                 return models.Kitty.objects.filter(Q(name=query['name'])&Q(img__endswith=query['type'])).order_by('?')
 
             return models.Kitty.objects.filter(Q(name=query['name'])).order_by('?')
 
-        if 'breed' in query.keys():
+        if 'tags' in query.keys():
             if 'type' in query.keys():
-                return models.Kitty.objects.filter(Q(breed__icontains=query['breed'])&Q(img__endswith=query['type'])).order_by('?')
+                return models.Kitty.objects.filter(Q(tags__icontains=query['tags'])&Q(img__endswith=query['type'])).order_by('?')
 
-            return models.Kitty.objects.filter(Q(breed__icontains=query['breed'])).order_by('?')
+            return models.Kitty.objects.filter(Q(tags__icontains=query['tags'])).order_by('?')
 
         if 'type' in query.keys():
             return models.Kitty.objects.filter(Q(img__endswith=query['type'])).order_by('?')
