@@ -50,5 +50,8 @@ resp = urlopen(r'http://127.0.0.1:8000/catto/random/').read()
 data = json.loads(resp)
 
 print(data)
-urlretrieve(data['img'], data['name']+data['img'][-4:])
+urlretrieve(data['img'], str(data['name'])+data['img'][-4:])
 ```
+
+## Usage Instruction
+This API is publically available and free to use for everyone. There is no need for any API keys. Credit is appreciated but not required. Feel free to reach out forany queries, or to get your own cat added to the database!
