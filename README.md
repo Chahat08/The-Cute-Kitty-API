@@ -54,4 +54,4 @@ urlretrieve(data['img'], str(data['name'])+data['img'][-4:])
 ```
 
 ## Usage Instruction
-This API is publically available and free to use for everyone. There is no need for any API keys. Credit is appreciated but not required. Feel free to reach out forany queries, or to get your own cat added to the database!
+This API is publicly available and free to use for everyone. There is no need for any API keys. Credit is appreciated but not required. Feel free to reach out in case of any queries, or to get your own cat added to the database!
