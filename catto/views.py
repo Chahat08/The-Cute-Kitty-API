@@ -4,7 +4,6 @@ from . import serializers, models
 from django.shortcuts import redirect
 import random
 from django.db.models import Q
-from itertools import chain
 
 # Create your views here.
 class KittyList(generics.ListAPIView): 
@@ -23,21 +22,27 @@ class SearchKittyCat(generics.ListAPIView):
     def get_queryset(self):
         query = self.request.GET
 
-        name_list = list()
-        breed_list = list()
+        evalstr = ''
 
-        if 'name' in query.keys() and'breed' in query.keys():
-            return models.Kitty.objects.filter(Q(name__icontains=query['name'])&Q(breed__icontains=query['breed']))
-
-        if 'name' in query.keys():
-            return models.Kitty.objects.filter(Q(name__icontains=query['name']))
-
-        if 'breed' in query.keys():
-            return models.Kitty.objects.filter(Q(breed__icontains=query['breed']))
+        if 'tags' in query:
+            tagslist = query.getlist('tags')
+            evalstr += 'Q(tags__icontains=tagslist[0])'
+            for i in range(1, len(tagslist)):
+                evalstr += ' & Q(tags__icontains=tagslist[{}])'.format(str(i))
 
 
+        if 'type' in query:
+            typelist = query.getlist('type')
+            if len(evalstr) == 0:
+                evalstr = '( Q(img__endswith=typelist[0])'
+            else: evalstr += ' & ( Q(img__endswith=typelist[0])'
+            for i in range(1, len(typelist)):
+                evalstr += ' | Q(img__endswith=typelist[{}])'.format(str(i))
+            evalstr += ' )'
 
-        return set(chain(name_list, breed_list))
+        return models.Kitty.objects.filter(eval(evalstr))
+
+
         
 
 
