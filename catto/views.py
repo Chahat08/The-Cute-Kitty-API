@@ -40,7 +40,7 @@ class SearchKittyCat(generics.ListAPIView):
                 evalstr += ' | Q(img__endswith=typelist[{}])'.format(str(i))
             evalstr += ' )'
 
-        return models.Kitty.objects.filter(eval(evalstr))
+        return models.Kitty.objects.filter(eval(evalstr)).order_by('?')
 
 
         
