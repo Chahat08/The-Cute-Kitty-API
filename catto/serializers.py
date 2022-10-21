@@ -4,4 +4,4 @@ from . import models
 class KittySerializer(serializers.ModelSerializer): 
     class Meta: 
         model = models.Kitty
-        fields = ('name', 'img', 'breed')
+        fields = ('name', 'img', 'tags')

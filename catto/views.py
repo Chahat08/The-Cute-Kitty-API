@@ -4,7 +4,6 @@ from . import serializers, models
 from django.shortcuts import redirect
 import random
 from django.db.models import Q
-from itertools import chain
 
 # Create your views here.
 class KittyList(generics.ListAPIView): 
@@ -23,27 +22,25 @@ class SearchKittyCat(generics.ListAPIView):
     def get_queryset(self):
         query = self.request.GET
 
+        evalstr = ''
 
-        if 'name' in query.keys() and 'tags' and 'type' in query.keys():
-            return models.Kitty.objects.filter(Q(name=query['name'])&Q(tags__icontains=query['tags'])&Q(img__endswith=query['type'])).order_by('?')
+        if 'tags' in query:
+            tagslist = query.getlist('tags')
+            evalstr += 'Q(tags__icontains=tagslist[0])'
+            for i in range(1, len(tagslist)):
+                evalstr += ' & Q(tags__icontains=tagslist[{}])'.format(str(i))
 
-        if 'name' in query.keys():
-            if 'tags' in query.keys():
-                return models.Kitty.objects.filter(Q(name=query['name'])&Q(tags__icontains=query['tags'])).order_by('?')
-            
-            if 'type' in query.keys():
-                return models.Kitty.objects.filter(Q(name=query['name'])&Q(img__endswith=query['type'])).order_by('?')
 
-            return models.Kitty.objects.filter(Q(name=query['name'])).order_by('?')
+        if 'type' in query:
+            typelist = query.getlist('type')
+            if len(evalstr) == 0:
+                evalstr = '( Q(img__endswith=typelist[0])'
+            else: evalstr += ' & ( Q(img__endswith=typelist[0])'
+            for i in range(1, len(typelist)):
+                evalstr += ' | Q(img__endswith=typelist[{}])'.format(str(i))
+            evalstr += ' )'
 
-        if 'tags' in query.keys():
-            if 'type' in query.keys():
-                return models.Kitty.objects.filter(Q(tags__icontains=query['tags'])&Q(img__endswith=query['type'])).order_by('?')
-
-            return models.Kitty.objects.filter(Q(tags__icontains=query['tags'])).order_by('?')
-
-        if 'type' in query.keys():
-            return models.Kitty.objects.filter(Q(img__endswith=query['type'])).order_by('?')
+        return models.Kitty.objects.filter(eval(evalstr))
 
 
         
