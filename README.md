@@ -8,7 +8,7 @@ The Cute Kitty API is a RESTful API created via Django. Use it to get random pic
 - [https://cutekitty.pythonanywhere.com](https://cutekitty.pythonanywhere.com) - For a list of all cats in the database!
 - [https://cutekitty.pythonanywhere.com/catto/random](https://cutekitty.pythonanywhere.com/catto/random) - To get a randomly chosen cat from the database!
 - [https://cutekitty.pythonanywhere.com/catto/41](https://cutekitty.pythonanywhere.com/catto/41) - You can also get a cat from its name. This will return cat 41!
-- [https://cutekitty.pythonanywhere.com/catto/search/?tags=cute&type=jpg]([https://cutekitty.pythonanywhere.com/catto/search/?tags=cute&type=jpg) - Filtering the database to get a list of cute .jpg cat images!
+- [https://cutekitty.pythonanywhere.com/catto/search/?tags=cute&type=jpg](https://cutekitty.pythonanywhere.com/catto/search/?tags=cute&type=jpg) - Filtering the database to get a list of cute .jpg cat images!
 
 ## Filtering
 
